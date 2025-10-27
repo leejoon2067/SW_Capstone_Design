@@ -124,61 +124,25 @@ attended_features = transformer_encoder(slice_sequence)
 
 ---
 
-## 📋 구현 우선순위
+## 구현 우선순위
 
 ### 즉시 가능 (현재 코드 기반):
-1. ✅ **2D Direct Load** (완료!)
-2. 🔜 AE/AE-U 모델 학습 (reconstruction 코드 활용)
-3. 🔜 결과 평가 및 baseline 설정
+1. **2D Direct Load** (완료!)
+2. AE/AE-U 모델 학습 (reconstruction 코드 활용)
+3. 결과 평가 및 baseline 설정
 
-### 단기 개선 (1-2주):
-4. 🎯 **Multi-Slice Input (2.5D)** - 추천!
+### 장/단기 개선 process (1-2주):
+4. **Multi-Slice Input (2.5D)**
    - 코드 수정 최소
    - 성능 향상 기대
    
 5. 🎯 **Positional Encoding**
    - 구현 간단
    - 추가 정보 제공
-
-### 장기 개선 (1개월+):
 6. 🔮 3D Patch-based
 7. 🔮 Attention Mechanism
 
 ---
-
-## 💡 현재 다음 단계 제안
-
-### 📌 지금 해야 할 것:
-```
-1. reconstruction 코드를 sw_capstone으로 복사
-   - networks/ae.py (2D AE)
-   - networks/aeu.py (2D AE-U)
-   - networks/base_units/*.py
-   - utils/losses.py
-   - utils/*_worker.py
-
-2. train.py, test.py 구현
-
-3. 학습 실행 및 baseline 결과 확보
-
-4. 결과 분석 후 개선 방향 결정
-```
-
-### 📌 Spatial 정보는:
-- 일단 2D로 baseline 결과 확보
-- 성능이 부족하면 Multi-Slice (2.5D) 추가
-- 코드에 TODO 주석으로 확장 포인트 표시 완료
-
----
-
-## 🔖 확장 포인트 위치
-
-### dataload.py
-```python
-Line ~240: # TODO [향후 개선]: Multi-slice 로드
-Line ~250: # TODO [향후 개선]: Positional encoding
-Line ~273: # def _load_adjacent_slice(): 헬퍼 함수
-```
 
 ### 향후 파라미터 추가 예정:
 ```python
@@ -190,6 +154,3 @@ CQ500Dataset(
     ...
 )
 ```
-
-준비 완료! 이제 AE 모델 구현으로 진행하시겠습니까?
-
