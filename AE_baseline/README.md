@@ -9,9 +9,9 @@ CQ500 CT 데이터셋을 사용한 뇌출혈(ICH) 이상 탐지
 
 ---
 
-## ✅ 구현 완료 현황
+## 구현 완료 현황
 
-### 1. **Data Pipeline** (100%)
+### 1. **Data Pipeline**
 ```
 ✓ dataloaders/dataload.py     - CQ500Dataset, DataModule
 ✓ dataloaders/preprocess.py   - DICOM 로더
@@ -21,7 +21,7 @@ CQ500 CT 데이터셋을 사용한 뇌출혈(ICH) 이상 탐지
 ✓ Val/Test: ~50,000 slices
 ```
 
-### 2. **Model Architecture** (100%)
+### 2. **Model Architecture**
 ```
 ✓ networks/ae.py              - Autoencoder
 ✓ networks/aeu.py             - AE with Uncertainty
@@ -31,7 +31,7 @@ CQ500 CT 데이터셋을 사용한 뇌출혈(ICH) 이상 탐지
 ✓ AE-U parameters: 4.5M
 ```
 
-### 3. **Training Infrastructure** (100%)
+### 3. **Training Infrastructure**
 ```
 ✓ utils/losses.py             - AELoss, AEULoss
 ✓ utils/ae_worker.py          - AE trainer
@@ -46,7 +46,7 @@ CQ500 CT 데이터셋을 사용한 뇌출혈(ICH) 이상 탐지
 
 ---
 
-## 🚀 사용 방법
+## 사용 방법
 
 ### 학습 실행
 ```bash
@@ -69,7 +69,7 @@ python train.py --model-name aeu --dataset cq500 --input-size 64 --batch-size 64
 
 ---
 
-## 📊 데이터셋 정보
+## 데이터셋 정보
 
 ### CQ500 Dataset
 ```
@@ -93,7 +93,7 @@ Train/Val/Test Split (70%/15%/15%):
 
 ---
 
-## 🏗️ 아키텍처 (Basic AE pipeline)
+## 아키텍처 (Basic AE pipeline)
 
 ### AE (Autoencoder)
 ```
