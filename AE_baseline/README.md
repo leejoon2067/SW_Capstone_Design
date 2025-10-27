@@ -4,8 +4,8 @@
 
 CQ500 CT 데이터셋을 사용한 뇌출혈(ICH) 이상 탐지
 - **데이터**: CQ500 DICOM (2D 슬라이스 방식)
-- **모델**: Autoencoder (AE), Autoencoder with Uncertainty (AE-U)
-- **목표**: 정상 뇌 CT로 학습 후 출혈 감지
+- **모델**: Autoencoder (AE), Autoencoder with Uncertainty (AE-U), Variational Autoencoder (VAE)
+- **목표**: 정상 뇌 CT로 학습 후 출혈(Herrmohage) 감지
 
 ---
 
@@ -25,6 +25,7 @@ CQ500 CT 데이터셋을 사용한 뇌출혈(ICH) 이상 탐지
 ```
 ✓ networks/ae.py              - Autoencoder
 ✓ networks/aeu.py             - AE with Uncertainty
+✓ networks/vae.py             - Variational Autoencoder
 ✓ networks/base_units/        - Building blocks
 ✓ AE parameters: 4.5M
 ✓ AE-U parameters: 4.5M
@@ -35,6 +36,7 @@ CQ500 CT 데이터셋을 사용한 뇌출혈(ICH) 이상 탐지
 ✓ utils/losses.py             - AELoss, AEULoss
 ✓ utils/ae_worker.py          - AE trainer
 ✓ utils/aeu_worker.py         - AE-U trainer
+✓ utils/vae_worker.py         - VAE trainer
 ✓ utils/base_worker.py        - Base class
 ✓ utils/util.py               - Utilities
 ✓ train.py                    - 학습 스크립트
@@ -53,11 +55,6 @@ python train.py --model-name ae --dataset cq500 --input-size 64 --batch-size 64 
 
 # AE-U 모델 학습
 python train.py --model-name aeu --dataset cq500 --input-size 64 --batch-size 64 --train-epochs 250
-```
-
-### 테스트 실행
-```bash
-python test.py --model-name ae --dataset cq500 --test-model-path <checkpoint_path>
 ```
 
 ### 주요 파라미터
@@ -96,7 +93,7 @@ Train/Val/Test Split (70%/15%/15%):
 
 ---
 
-## 🏗️ 아키텍처
+## 🏗️ 아키텍처 (Basic AE pipeline)
 
 ### AE (Autoencoder)
 ```
@@ -112,21 +109,12 @@ Output (B, 1, 64, 64)
 
 Loss: MSE(input, reconstruction)
 ```
-
-### AE-U (AE with Uncertainty)
-```
-Same as AE, but:
-  - Predicts reconstruction + log_var
-  - Output: (B, 2, 64, 64) → (x_hat, log_var)
-  - Loss: exp(-log_var) * MSE + log_var
-```
-
 ---
 
-## 📁 프로젝트 구조
+## 📁 AE_baseline 모델 폴더 구조
 
 ```
-sw_capstone/
+AE_baseline/
 ├── dataloaders/
 │   ├── __init__.py
 │   ├── dataload.py          ✓ Dataset/DataModule
@@ -164,62 +152,14 @@ sw_capstone/
 - **AUPRC**: Precision-Recall 곡선 아래 면적
 
 ### 학습 모니터링
-- Training loss (reconstruction error)
+- Training loss (reconstruction error, re + log-loss)
 - Validation AUROC/AUPRC
-
----
-
-## 🔧 향후 개선 사항
-
-### v1.0 (현재)
-- ✅ 2D 슬라이스 기반 학습
-- ✅ 단일 슬라이스 입력
-
-### v2.0 (계획)
-- 📅 Multi-slice input (2.5D)
-- 📅 Positional encoding
-- 📅 Spatial context 추가
-
-### v3.0 (장기)
-- 📅 3D Patch-based
-- 📅 Attention mechanism
-- 📅 Self-supervised pre-training
-
-자세한 내용은 `FUTURE_IMPROVEMENTS.md` 참조
-
----
-
-## 📝 테스트 확인
-
-### 모델 테스트
-```bash
-python test_model.py
-```
-
-### DataLoader 테스트
-```bash
-python -c "from dataloaders import CQ500DataModule; print('DataLoader OK!')"
-```
-
----
-
-## 🎓 참고 자료
-
-- 원본 코드: `reconstruction/` 폴더
-- MedIAnomaly 논문: [링크]
-- CQ500 데이터셋: PhysioNet
-
----
-
-## 📧 문의
-
-구현 관련 질문이나 버그는 TODO 주석을 참고하세요.
 
 ---
 
 **Last Updated**: 2025-10-08
 **Version**: 1.0
-**Status**: ✅ 학습 준비 완료!
+**Status**: 학습 준비 완료!
 
 
 
